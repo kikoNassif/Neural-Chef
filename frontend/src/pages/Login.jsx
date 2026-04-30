@@ -19,9 +19,14 @@ const Login = () => {
 
         if (result.success) {
             toast.success('Welcome back!');
+            
             navigate('/dashboard');
         } else {
-            toast.error(result.message);
+            toast.error(
+                typeof result.message === 'string'
+                    ? result.message
+                    : 'Invalid email or password'
+            );
         }
 
         setLoading(false);

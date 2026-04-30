@@ -14,7 +14,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Check if user is logged in
@@ -38,9 +38,14 @@ export const AuthProvider = ({ children }) => {
 
             return { success: true };
         } catch (error) {
+            const message = 
+                error.response?.data?.message ||
+                error.response?.data?.error ||
+                (Array.isArray(error.response?.data) ? error.response.data[0] : null) ||
+                'Invalid email or password'
             return {
                 success: false,
-                message: error.response?.data?.message || 'Login failed'
+                message
             };
         }
     };
